@@ -1,0 +1,28 @@
+<report>
+    <reportPartA>
+        <person>
+            <firstname>John</firstname>
+            <lastname>Smith</lastname>
+            <middlename>Joe</middlename>
+            <phone>123-345-6789</phone>
+            <dateofbirth>1980-02-03</dateofbirth>
+            <location>
+                <street>122 Road</street>
+                <country>US</country>
+           </location>
+        </person>
+        <location>
+            <street>244 Country Road</street>
+            <country>CA</country>
+        </location>
+    </reportPartA>
+	<reportPartB>
+        <reportsubsection>
+            <amount>12345</amount>
+            <location>
+                <street></street>
+                <country></country>
+            </location>
+        </reportsubsection>
+    </reportPartB>
+</report>

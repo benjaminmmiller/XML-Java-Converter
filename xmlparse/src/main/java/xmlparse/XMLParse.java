@@ -27,7 +27,7 @@ public class XMLParse {
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		
 		//Get the file from the resources directory
-		File file = new File("src/main/resources/Person.xml");
+		File file = new File("src/main/resources/Report.xml");
 		
 		//Setup DOM document that can be read from
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -48,7 +48,8 @@ public class XMLParse {
 	    	if(isPureChild(element)) {
 	    		//Print info
 	    		System.out.println("Element Node Detected!");
-				System.out.println("Formatted Tag: ");
+	    		System.out.println("XML Tag Name: "+element.getTagName());
+				System.out.println("Formatted Tag Hierarchy: ");
 				System.out.println(getNodeTagFormattedXMLHierarchy(element));
 				System.out.println("Element Data: "+element.getTextContent());
 	    	}
@@ -96,16 +97,40 @@ public class XMLParse {
 		return formattedXML;
 	}
 	
+	/**
+	 * Formats the XML as a tag with inner tags, i.e. a tag that contains child elements
+	 * This is needed since the formatting is different from one without child elements, there is an extra line separator. 
+	 * @param numTabs
+	 * @param startTag
+	 * @param endTag
+	 * @param innerTag
+	 * @return
+	 */
 	public static String formatXmlWithInner(int numTabs, String startTag, String endTag, String innerTag) {
 		String formattedXML = generateTabs(numTabs)+startTag+System.lineSeparator()+innerTag+System.lineSeparator()+generateTabs(numTabs)+endTag;
 		return formattedXML;
 	}
 	
+	/**
+	 * Formats XML as the innermost tag. i.e. the bottom of the hierarchy.
+	 * This tag does not contain any child elements
+	 * This is needed since the formatting is slightly different, there is one less line separator. 
+	 * @param numTabs
+	 * @param startTag
+	 * @param endTag
+	 * @return
+	 */
 	public static String formatXmlWithoutInner(int numTabs, String startTag, String endTag) {
 		String formattedXML = generateTabs(numTabs)+startTag+System.lineSeparator()+generateTabs(numTabs)+endTag;
 		return formattedXML;
 	}
 	
+	/**
+	 * Generator "tabs" to format the XML nicely
+	 * Used spaces instead of tabs since tabs appear too big
+	 * @param numTabs
+	 * @return
+	 */
 	public static String generateTabs(int numTabs) {
 		String tabs="";
 		for (int i=0;i<numTabs;i++) {
@@ -114,6 +139,12 @@ public class XMLParse {
 		return tabs;
 	}
 	
+	/**
+	 * Gets the number of parents for a given node
+	 * Navigates up through the hiearchy and counts each parent node
+	 * @param node
+	 * @return
+	 */
 	public static int getNumParentsForNode(Node node) {
 		int numParents = 0;
 		Node parentNode = node;
@@ -124,12 +155,6 @@ public class XMLParse {
 		return numParents;
 	}
 	
-	public static String getNodeTagFormattedXML(Node node) {
-		String nodeName = node.getNodeName();
-		String startTag=formatStartTag(nodeName);
-		String endTag = formatEndTag(nodeName);
-		return startTag+endTag;
-	}
 	
 	/**
 	 * Manually format a given string as an xml start tag.
@@ -206,8 +231,6 @@ public class XMLParse {
 		}
 		return "";
 	}
-	
-	
 	
 	public static void  iterateNodes(Node parent) {
 		NodeList childNodes = parent.getChildNodes();
